@@ -47,5 +47,42 @@ Da auch dieser Anwender sehr schützenswert ist, sollte hier ebenfalls ein MFA e
 
 ## Das Erstellen einer Webseite mittels der AWS CLI
 
+Um die AWS CLI nutzen zu können, benötige ich einen User, für den der programmatische Zugriff erteilt wurde. Wir erstellen dafür für den bereits existierenden IAM User Access Keys. Im Terminal richte ich nun diesen Nutzer mittels `aws configure` ein.
 
+Nun richten wir eine App über das AWS Cloud Development Kit ein. Dazu installieren wir über das Terminal einmal die CDK:
 
+    npm install -g aws-cdk
+
+Dann erstellen wir einen leeren Ordner:
+
+    mkdir cdk-app && cd cdk-app
+
+In diesem neuen Ordner richten wir die Basiskonfiguration für unsere App ein, die auf `typescript` basieren soll:
+
+    cdk init app --language=typescript
+
+In der Datei `lib/cdk-app-stack.ts` können wir nun die Ressourcen anlegen, die wir für unsere App benötigen.
+
+```typescript
+import * as cdk from '@aws-cdk/core';
+
+export class CdkAppStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+    // The code that defines your stack goes here
+  }
+}
+```
+
+### Arbeiten mit der AWS CDK
+
+The `cdk.json` file tells the CDK Toolkit how to execute your app.
+
+**Some Useful commands**
+
+ * `npm run build`   compile typescript to js
+ * `npm run watch`   watch for changes and compile
+ * `npm run test`    perform the jest unit tests
+ * `cdk deploy`      deploy this stack to your default AWS account/region
+ * `cdk diff`        compare deployed stack with current state
+ * `cdk synth`       emits the synthesized CloudFormation template
