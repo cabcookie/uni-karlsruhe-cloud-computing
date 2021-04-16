@@ -6,7 +6,11 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "deploy:test": "cdk deploy --all -c env=test",
+    "deploy:prod": "cdk deploy --all -c env=prod",
+    "destroy:test": "cdk destroy --all -c env=test",
+    "destroy:prod": "cdk destroy --all -c env=prod"
   },
   "author": {
     "name": "Amazon Web Services",
@@ -20,10 +24,16 @@
   },
   "dependencies": {
     "@aws-cdk/aws-autoscaling": "^1.98.0",
+    "@aws-cdk/aws-certificatemanager": "^1.98.0",
+    "@aws-cdk/aws-cloudfront": "^1.98.0",
     "@aws-cdk/aws-ec2": "^1.98.0",
     "@aws-cdk/aws-elasticloadbalancingv2": "^1.98.0",
     "@aws-cdk/aws-iam": "^1.98.0",
+    "@aws-cdk/aws-route53": "^1.98.0",
+    "@aws-cdk/aws-route53-targets": "^1.98.0",
+    "@aws-cdk/aws-s3": "^1.98.0",
     "@aws-cdk/aws-s3-assets": "^1.98.0",
+    "@aws-cdk/aws-s3-deployment": "^1.98.0",
     "@aws-cdk/core": "^1.98.0"
   }
 }

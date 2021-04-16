@@ -49,18 +49,18 @@ Da auch dieser Anwender sehr schützenswert ist, sollte hier ebenfalls ein MFA e
 
 Um die AWS CLI nutzen zu können, benötige ich einen User, für den der programmatische Zugriff erteilt wurde. Wir erstellen dafür für den bereits existierenden IAM User Access Keys. Im Terminal richte ich nun diesen Nutzer mittels `aws configure` ein.
 
-Wir clonen in diesem Beispiel eine Umgebung aus den CDK Beispielen:
-
-```bash
-git clone https://github.com/aws-samples/aws-cdk-examples/
-```
-
-Wir nutzen den Code aus dem Ordner `typescript/application-load-balancer` und kopieren die Datein in unser Arbeitsverzeichnis. Nun installieren wir das AWS Cloud Development Kit und die benötigten Pakete:
+Ich installiere die CDK lokal:
 
 ```bash
 npm install -g aws-cdk
 npm install
 ```
+
+### Voraussetzungen:
+
+Um mit diesem Stack arbeiten zu können, muss ich in Route53 eine HostedZone eingerichtet haben für die Domäne, die ich in der `cdk.json` unter `context.domain` angebe und diese muss über meinen Domain-Provider so eingerichtet werden, dass sie auf Route53 verweist.
+
+
 
 
 

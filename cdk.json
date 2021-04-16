@@ -1,3 +1,8 @@
 {
-    "app": "node index"
+    "app": "node ./iaas/index",
+    "context": {
+        "domain": "uni-karlsruhe.cabcookie.de",
+        "subdomain-test": "test",
+        "subdomain-prod": "www"
+    }
 }
