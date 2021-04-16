@@ -60,7 +60,7 @@ npm install
 
 Um mit diesem Stack arbeiten zu können, muss ich in Route53 eine HostedZone eingerichtet haben für die Domäne, die ich in der `cdk.json` unter `context.domain` angebe und diese muss über meinen Domain-Provider so eingerichtet werden, dass sie auf Route53 verweist.
 
-
+Außerdem muss zu Beginn einmalig ein Zertifikat manuell in der Region `us-east-1` eingerichtet und dessen `arn` in der `cdk.json` hinterlegt werden unter `context.certificateArn`. Das Zertifikat muss auch alle angedachten Unterdömanen berücksichtigen und die entsprechenden CNAME Einträge in Route53 vornehmen.
 
 
 

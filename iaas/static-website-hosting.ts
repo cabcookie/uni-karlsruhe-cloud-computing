@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // import { HostedZone } from '@aws-cdk/aws-route53';
+import { CloudFrontWebDistribution, OriginAccessIdentity, SecurityPolicyProtocol, SSLMethod } from '@aws-cdk/aws-cloudfront';
 import { Bucket } from '@aws-cdk/aws-s3';
+import { BucketDeployment, Source } from '@aws-cdk/aws-s3-deployment';
 import { CfnOutput, RemovalPolicy, Stack } from '@aws-cdk/core';
 
 /**
@@ -25,21 +27,6 @@ import { CfnOutput, RemovalPolicy, Stack } from '@aws-cdk/core';
 export class StaticWebsiteS3 extends Stack {
     constructor(stack: Stack, name: string) {
         super(stack, name);
-        /**{
-            env: {
-                // Stack must be in us-east-1, because the ACM certificate for a
-                // global CloudFront distribution must be requested in us-east-1.
-                region: 'us-east-1'
-            }
-        });*/
-
-        // const env = this.node.tryGetContext("env");
-        // const domain = this.node.tryGetContext("domain");
-        // const subdomain = this.node.tryGetContext(`subdomain-${env}`);
-        // const siteDomain = `${subdomain}.${domain}`;
-
-        // const zone = HostedZone.fromLookup(this, "Zone", { domainName: domain });
-        // new CfnOutput(this, "SiteUrl", { value: `https://${siteDomain}` });
 
         // S3 Bucket for static website 
         const siteBucket = new Bucket(this, "SiteBucket", {
@@ -53,6 +40,39 @@ export class StaticWebsiteS3 extends Stack {
             removalPolicy: RemovalPolicy.DESTROY,
         });
         new CfnOutput(this, "SiteBucketName", { value: siteBucket.bucketName });
+        
+        const env = this.node.tryGetContext("env");
+        const domain = this.node.tryGetContext("domain");
+        const subdomain = this.node.tryGetContext(`subdomain-${env}`);
+        const certificateArn = this.node.tryGetContext("certificateArn");
+        const siteDomain = `${subdomain}.${domain}`;
+        
+        // CloudFront distribution that provides HTTPS
+        const oai = new OriginAccessIdentity(this, "OriginAccessIdentity");
+        const distribution = new CloudFrontWebDistribution(this, "SiteDistribution", {
+            originConfigs: [{
+                s3OriginSource: {
+                    s3BucketSource: siteBucket,
+                    originAccessIdentity: oai,
+                },
+                behaviors: [{ isDefaultBehavior: true }],
+            }],
+            aliasConfiguration: {
+                acmCertRef: certificateArn,
+                names: [siteDomain],
+                sslMethod: SSLMethod.SNI,
+                securityPolicy: SecurityPolicyProtocol.TLS_V1_1_2016,
+            },
+        });
+        new CfnOutput(this, "SiteDistributionId", { value: distribution.distributionId });
+        new CfnOutput(this, "SiteUrl", { value: `https://${siteDomain}` });
 
+        // Deploy `./src` on your S3 Bucket
+        new BucketDeployment(this, "DeployOnSiteBucket", {
+            sources: [Source.asset("./src")],
+            destinationBucket: siteBucket,
+            distribution,
+            distributionPaths: ["/*"],
+        })
     }
 }
