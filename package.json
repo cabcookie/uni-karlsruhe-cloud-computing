@@ -1,21 +1,18 @@
 {
-  "name": "application-load-balancer",
+  "name": "uni-karlsruhe-cloud-computing",
   "version": "1.0.0",
-  "description": "Use of an Application Load Balancer with an AutoScaling Group",
+  "description": "Step by step build a search engine that is deployed via the AWS CDK.",
   "private": true,
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
     "cdk": "cdk",
-    "deploy:test": "cdk deploy --all -c env=test",
-    "deploy:prod": "cdk deploy --all -c env=prod",
-    "destroy:test": "cdk destroy --all -c env=test",
-    "destroy:prod": "cdk destroy --all -c env=prod"
+    "deploy": "cdk deploy --all",
+    "destroy": "cdk destroy --all"
   },
   "author": {
-    "name": "Amazon Web Services",
-    "url": "https://aws.amazon.com",
-    "organization": true
+    "name": "Carsten Koch",
+    "url": "https://cabcookie.de"
   },
   "license": "Apache-2.0",
   "devDependencies": {

@@ -2,8 +2,6 @@
     "app": "node ./iaas/index",
     "context": {
         "domain": "uni-karlsruhe.cabcookie.de",
-        "subdomain-test": "test",
-        "subdomain-prod": "www",
         "certificateArn": "arn:aws:acm:us-east-1:691062780315:certificate/a44066ce-66a7-41c8-a9ce-e76940b7d226"
     }
 }
